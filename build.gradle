@@ -2,21 +2,23 @@ group 'org.example'
 version '1.0-SNAPSHOT'
 
 buildscript {
-  ext.kotlin_version = '1.1.2-2'
+  ext.kotlin_version = '1.2.50'
 
   repositories {
     mavenLocal()
     mavenCentral()
   }
   dependencies {
-    classpath "io.ebean:ebean-gradle-plugin:10.2.2"
+    classpath "io.ebean:ebean-gradle-plugin:11.10.1"
     classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
   }
 }
 
+apply plugin: 'idea'
+apply plugin: 'io.ebean'
 apply plugin: 'kotlin'
 apply plugin: 'kotlin-kapt'
-apply plugin: 'ebean'
+
 
 repositories {
   mavenLocal()
@@ -25,38 +27,37 @@ repositories {
 
 dependencies {
 
-  kapt "io.ebean:kotlin-querybean-generator:10.1.2"
-//  kapt "io.ebean:ebean-querybean:10.3.1"
-//  kapt "io.ebean:persistence-api:2.2.1"
+  compile "org.slf4j:slf4j-api:1.7.25"
+  compile "org.avaje.composite:logback:1.1"
+  compile "io.ebean:ebean:11.17.2"
+  compile "io.ebean:ebean-querybean:11.4.1"
 
-  //kaptCompile "io.ebean:ebean-querybean:10.2.1"
-  //kaptCompile "io.ebean:persistence-api:2.2.1"
+  compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 
-  compile "io.ebean:ebean:10.3.1"
-  compile "io.ebean:ebean-querybean:10.3.1"
+  kapt "io.ebean:kotlin-querybean-generator:11.4.1"
 
-  compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
-
-
-  testCompile "org.avaje.composite:composite-testing:3.1"
+  testCompile "org.avaje.composite:junit:1.1"
 }
 
-kapt {
-  generateStubs = true
-}
+//kapt {
+//  generateStubs = true
+//}
 
-sourceSets {
-  main.kotlin.srcDirs += [file("$buildDir/generated/source/kaptKotlin/main")]
+//sourceSets {
+//  main.kotlin.srcDirs += [file("$buildDir/generated/source/kaptKotlin/main")]
+//}
+
+idea {
+  module {
+    def kaptMain = file('build/generated/source/kapt/main')
+    sourceDirs += kaptMain
+    generatedSourceDirs += kaptMain
+  }
 }
 
 ebean {
-  debugLevel = 9
-  //queryBeans = true
-  //kotlin = true
-}
-
-test {
-  useTestNG()
-  testLogging.showStandardStreams = true
-  testLogging.exceptionFormat = 'full'
+  debugLevel = 2
+  queryBeans = true
+  kotlin = true
+  generatorVersion = "11.4.1"
 }
