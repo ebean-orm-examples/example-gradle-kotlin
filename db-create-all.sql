@@ -1,45 +1,45 @@
 create table customer (
-  id                            bigint auto_increment not null,
+  id                            bigserial not null,
   credit_limit                  decimal(38),
   notes                         varchar(500),
   name                          varchar(150) not null,
   version                       bigint not null,
-  when_created                  timestamp not null,
-  when_modified                 timestamp not null,
+  when_created                  timestamptz not null,
+  when_modified                 timestamptz not null,
   constraint uq_customer_name unique (name),
   constraint pk_customer primary key (id)
 );
 
 create table orders (
-  id                            bigint auto_increment not null,
-  when_placed_for               timestamp,
-  when_invoiced                 timestamp,
+  id                            bigserial not null,
+  when_placed_for               timestamptz,
+  when_invoiced                 timestamptz,
   customer_id                   bigint not null,
   version                       bigint not null,
-  when_created                  timestamp not null,
-  when_modified                 timestamp not null,
+  when_created                  timestamptz not null,
+  when_modified                 timestamptz not null,
   constraint pk_orders primary key (id)
 );
 
 create table order_line (
-  id                            bigint auto_increment not null,
+  id                            bigserial not null,
   order_id                      bigint not null,
   description                   varchar(255),
   product_id                    bigint not null,
   quantity                      integer not null,
   version                       bigint not null,
-  when_created                  timestamp not null,
-  when_modified                 timestamp not null,
+  when_created                  timestamptz not null,
+  when_modified                 timestamptz not null,
   constraint pk_order_line primary key (id)
 );
 
 create table product (
-  id                            bigint auto_increment not null,
+  id                            bigserial not null,
   sku                           varchar(20) not null,
   name                          varchar(100) not null,
   version                       bigint not null,
-  when_created                  timestamp not null,
-  when_modified                 timestamp not null,
+  when_created                  timestamptz not null,
+  when_modified                 timestamptz not null,
   constraint pk_product primary key (id)
 );
 
