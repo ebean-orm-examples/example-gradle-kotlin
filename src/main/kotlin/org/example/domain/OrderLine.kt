@@ -1,5 +1,6 @@
 package org.example.domain
 
+import org.example.domain.finder.OrderLineFinder
 import javax.persistence.Entity
 import javax.persistence.ManyToOne
 
@@ -9,7 +10,7 @@ class OrderLine(
   @ManyToOne
   var product: Product,
 
-  var quantity : Int
+  var quantity: Int
 
 ) : BaseModel() {
 
@@ -18,4 +19,6 @@ class OrderLine(
 
   var description: String? = null
 
+
+  companion object Find : OrderLineFinder()
 }
