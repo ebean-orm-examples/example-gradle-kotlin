@@ -1,3 +1,16 @@
+create table animal (
+  id                            bigserial not null,
+  name                          varchar(255) not null,
+  owner_id                      bigint not null,
+  age                           integer not null,
+  type                          varchar(255),
+  notes                         varchar(255),
+  version                       bigint not null,
+  when_created                  timestamptz not null,
+  when_modified                 timestamptz not null,
+  constraint pk_animal primary key (id)
+);
+
 create table customer (
   id                            bigserial not null,
   credit_limit                  decimal(38),
@@ -33,6 +46,16 @@ create table order_line (
   constraint pk_order_line primary key (id)
 );
 
+create table owner (
+  id                            bigserial not null,
+  name                          varchar(255) not null,
+  phone                         varchar(255),
+  version                       bigint not null,
+  when_created                  timestamptz not null,
+  when_modified                 timestamptz not null,
+  constraint pk_owner primary key (id)
+);
+
 create table product (
   id                            bigserial not null,
   sku                           varchar(20) not null,
@@ -42,6 +65,9 @@ create table product (
   when_modified                 timestamptz not null,
   constraint pk_product primary key (id)
 );
+
+create index ix_animal_owner_id on animal (owner_id);
+alter table animal add constraint fk_animal_owner_id foreign key (owner_id) references owner (id) on delete restrict on update restrict;
 
 create index ix_orders_customer_id on orders (customer_id);
 alter table orders add constraint fk_orders_customer_id foreign key (customer_id) references customer (id) on delete restrict on update restrict;

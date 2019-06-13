@@ -1,17 +1,33 @@
 package org.example.domain
 
+import org.example.domain.query.QCustomer
 import org.example.domain.query.QOrder
 import org.junit.Test
 import java.math.BigDecimal
-
+import org.example.domain.query.QCustomer.Companion._alias as c
 
 class CustomerTest {
 
+  @Test
+  fun qeru() {
+
+    val customer = QCustomer()
+      .select(c.name)
+      .name.equalToOrNull("Rob")
+      .raw("name is null or name =?", "Rob")
+      .findOne()
+  }
 
   @Test
   fun save() {
 
     setup()
+
+    val customer = QCustomer()
+      .select(c.name)
+      .name.isNull
+      .raw("name is null or name =?", "Rob")
+      .findOne()
 
     val rob = Customer.findByName("Rob") ?: throw IllegalStateException("no rob")
 
@@ -25,13 +41,9 @@ class CustomerTest {
 
     order.save()
 
-    println("----------")
-
-
     QOrder()
       .customer.name.startsWith("Ro")
       .findOne()
-
   }
 
   private fun setup() {
