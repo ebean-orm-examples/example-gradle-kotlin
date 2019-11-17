@@ -3,17 +3,18 @@ package org.example.domain
 import io.ebean.annotation.Length
 import org.example.domain.finder.CustomerFinder
 import java.math.BigDecimal
-import javax.persistence.Column
-import javax.persistence.Entity
-import javax.persistence.OneToMany
+import javax.persistence.*
 
 @Entity
-open class Customer(
+open class Customer(name: String) : BaseModel() {
 
   @Column(length = 150, unique = true)
-  var name: String
+  var name: String = name
 
-) : BaseModel() {
+  @Enumerated(EnumType.STRING)
+  var sex: Sex = Sex.DEFAULT
+
+  var other: String? = null
 
   var creditLimit: BigDecimal? = null
 
@@ -21,7 +22,7 @@ open class Customer(
   var notes: String? = null
 
   @OneToMany(mappedBy = "customer")
-  var orders : List<Order> = mutableListOf()
+  var orders: List<Order> = mutableListOf()
 
   companion object Find : CustomerFinder()
 }
