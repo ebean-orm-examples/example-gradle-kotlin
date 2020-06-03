@@ -6,12 +6,13 @@ import java.math.BigDecimal
 import javax.persistence.*
 
 @Entity
-open class Customer(name: String) : BaseModel() {
+class Customer(
 
   @Column(length = 150, unique = true)
-  var name: String = name
+  var name: String
 
-  @Enumerated(EnumType.STRING)
+) : BaseModel() {
+
   var sex: Sex = Sex.DEFAULT
 
   var other: String? = null
@@ -21,7 +22,7 @@ open class Customer(name: String) : BaseModel() {
   @Length(500)
   var notes: String? = null
 
-  @OneToMany(mappedBy = "customer")
+  @OneToMany
   var orders: List<Order> = mutableListOf()
 
   companion object Find : CustomerFinder()

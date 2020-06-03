@@ -4,14 +4,17 @@ import javax.persistence.Entity
 import javax.persistence.ManyToOne
 
 @Entity
-class Animal(name: String, owner: Owner) : BaseModel() {
+class Animal(
 
-  var name :String = name
+  var name: String,
 
   @ManyToOne
-  var owner: Owner = owner
+  var owner: Owner
+
+) : BaseModel() {
 
   var age : Int = 0
+
   var type : String? = null
 
   var notes: String? = null

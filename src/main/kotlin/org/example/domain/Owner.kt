@@ -3,9 +3,11 @@ package org.example.domain
 import javax.persistence.Entity
 
 @Entity
-class Owner(name:String) : BaseModel() {
+class Owner(
 
-  val name :String = name
+  val name: String
+
+) : BaseModel() {
 
   var phone:String? = null
 }

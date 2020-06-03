@@ -17,7 +17,7 @@ class Order(
 
   var whenInvoiced : OffsetDateTime? = null
 
-  @OneToMany(cascade = [CascadeType.ALL], mappedBy = "order")
+  @OneToMany(cascade = [CascadeType.ALL])
   var lines: MutableList<OrderLine> = mutableListOf()
 
   companion object Find : OrderFinder()

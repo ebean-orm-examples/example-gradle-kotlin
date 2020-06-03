@@ -19,6 +19,5 @@ class OrderLine(
 
   var description: String? = null
 
-
   companion object Find : OrderLineFinder()
 }
