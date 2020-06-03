@@ -3,6 +3,7 @@ package org.example.domain
 import org.example.domain.query.QCustomer
 import org.example.domain.query.QOrder
 import org.example.domain.scalartype.ValidEmail
+import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import java.math.BigDecimal
@@ -50,6 +51,15 @@ class CustomerTest {
     QOrder()
       .customer.name.startsWith("Ro")
       .findOne()
+  }
+
+  @After
+  fun tearDown() {
+    val customer = Customer.findByName("Rob")
+    customer?.orders?.forEach {
+      it.delete()
+    }
+    customer?.delete()
   }
 
   @Before
